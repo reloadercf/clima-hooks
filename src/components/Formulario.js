@@ -1,12 +1,34 @@
-import React from 'react';
+import React,{useState} from 'react';
 
-function Formulario(){
+function Formulario({datosConsulta}){
+
+    
+    //state del componente
+    //busqueda = state
+    //guardarBusqueda = this.setState({})
+
+    let [busqueda,guardarBusqueda]=useState({
+        ciudad:'',
+        pais:'',
+    })
+
     let handleChange=e=>{
         //cambiar el state
+        guardarBusqueda({
+            ...busqueda,
+            [e.target.name]:e.target.value
+        })
     }
 
+    let consultarClima=e=>{
+        e.preventDefault();
+        //pasar hacia el componente principal la busqueda de usuario
+        datosConsulta(busqueda);
+    }
     return (
-        <form>
+        <form
+            onSubmit={consultarClima}
+        >
             <div className='input-field col s12'>
                 <input
                     type='text'
@@ -17,8 +39,8 @@ function Formulario(){
                 <label htmlFor='ciudad'>Ciudad: </label>
             </div>
             <div className='input-field col s12'>
-                <select on onChange={handleChange} name='pais'>
-                    <option value=''>selecciona un pais</option>
+                <select onChange={handleChange} name='pais'>
+                    <option value=''>Selecciona un país</option>
                     <option value='US'>Estados Unidos</option>
                     <option value='MX'>Mexico</option>
                     <option value='AR'>Argentina</option>
@@ -29,7 +51,7 @@ function Formulario(){
                 </select>
             </div>
             <div className='input-field col s12'>
-                <input type='submit' className='waves-effect waves-light btn-large btn-block yellow accent-4' value='buscar clima' />
+                <input type='submit' className='waves-effect waves-light btn-large btn-block yellow accent-4' value='Buscar clima' />
             </div>
         </form>
     )
